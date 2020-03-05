@@ -1,0 +1,11 @@
+@mixin header-navigation-box-shadow {
+            -moz-box-shadow:    3px 3px 0px 0px #ebebeb;
+            -webkit-box-shadow: 3px 3px 0px 0px #ebebeb;
+            box-shadow:         3px 3px 0px 0px #ebebeb;
+}
+
+    
+@mixin header-button-border-radius{
+    border-radius: 3px;
+}
+

@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.single-champaign-action .fa {
+  padding: 5px;
+}
+.row .toast {
+  max-width: 100%;
+}

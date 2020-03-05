@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'Poppins Black';
+  src: url("./css/fonts/poppins-black-webfont.eot") format("eot"), url("./css/fonts/poppins-black-webfont.woff") format("woff"), url("./css/fonts/poppins-black-webfont.woff2") format("woff2"), url("./css/fonts/poppins-black-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins Bold';
+  src: url("./css/fonts/poppins-bold-webfont.eot") format("eot"), url("./css/fonts/poppins-bold-webfont.woff2") format("woff2"), url("./css/fonts/poppins-bold-webfont.woff") format("woff"), url("./css/fonts/poppins-bold-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins Light';
+  src: url("./css/fonts/poppins-light-webfont.eot") format("eot"), url("./css/fonts/poppins-light-webfont.woff2") format("woff2"), url("./css/fonts/poppins-light-webfont.woff") format("woff"), url("./css/fonts/poppins-light-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins Medium';
+  src: url("./css/fonts/poppins-medium-webfont.eot") format("eot"), url("./css/fonts/poppins-medium-webfont.woff2") format("woff2"), url("./css/fonts/poppins-medium-webfont.woff") format("woff"), url("./css/fonts/poppins-medium-webfont.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: 'Poppins Regular';
+  src: url("./css/fonts/Poppins-Regular.eot") format("eot"), url("./css/fonts/poppins-regular-webfont.woff") format("woff"), url("./css/fonts/poppins-regular-webfont.woff2") format("woff2"), url("./css/fonts/Poppins-Regular.ttf") format("truetype"), url("./css/fonts/Poppins-Regular.svg") format("svg");
+}
+
+@font-face {
+  font-family: 'Poppins SemiBold';
+  src: url("./css/fonts/Poppins-SemiBold.eot") format("eot"), url("./css/fonts/Poppins-SemiBold.woff2") format("woff2"), url("./css/fonts/Poppins-SemiBold.woff") format("woff"), url("./css/fonts/Poppins-SemiBold.ttf") format("truetype"), url("./css/fonts/Poppins-SemiBold.svg") format("svg");
+}
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background: #FFFFFF;
+  font-family: Poppins Regular;
+}
+
+.campaign-status-bar .nav a {
+  color: #000000;
+}
+
+.campaign-status-bar .nav .active {
+  font-weight: bold;
+}
+
+.pagination .page-link {
+  color: #000000;
+}
+
+.pagination .page-item.active .page-link {
+  background: #000000;
+  border-color: #000000;
+}
+
+.footer-bottom-bar {
+  background: #212529;
+  color: #FFFFFF;
+  padding: 20px 10px;
+}
+
+.footer-bottom-bar .copyright-text {
+  margin-bottom: 0px;
+}
+/*# sourceMappingURL=style.css.map */
