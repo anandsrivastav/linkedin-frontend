@@ -20,7 +20,7 @@ class Header extends Component {
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                     </button>
-                    <a className="navbar-brand" href="#"><span className="logo-text">Oak Tree Cloud</span></a>
+                    <Link className="navbar-brand" to="#"><span className="logo-text">Oak Tree Cloud</span></Link>
                 
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
                         <ul className="nav navbar-nav ">
@@ -28,14 +28,14 @@ class Header extends Component {
                               auth.isAuthenticated ? (
                                 <React.Fragment>
                                   <li className="nav-item active">
-                                      <a className="nav-link" href="/">Campaign <span className="sr-only">(current)</span></a>
+                                      <Link className="nav-link" to="/">Campaign <span className="sr-only">(current)</span></Link>
                                   </li>
                                   <li className="nav-item">
-                                      <a className="nav-link" href="/">Dashboard</a>
+                                      <Link className="nav-link" to="/">Dashboard</Link>
                                   </li>
                                   <li className="nav-item">
-                                      <a className="nav-link" href="#">Message</a>
-                                  </li>                                
+                                      <Link className="nav-link" to="#">Templates</Link>
+                                  </li>
                                 </React.Fragment>
                               ) : null
                             }
@@ -57,13 +57,13 @@ class Header extends Component {
                                 </li>
                               ) : (
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <Link className="nav-link dropdown-toggle" to="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Actions
-                                    </a>
+                                    </Link>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a className="dropdown-item" href="/"><i className="fa fa-user" aria-hidden="true"></i> Login</a>
+                                            <Link className="dropdown-item" to="/"><i className="fa fa-user" aria-hidden="true"></i> Login</Link>
                                             <div className="dropdown-divider"></div>
-                                            <a className="dropdown-item" href="/signup"> <i className="fa fa-sign-out" aria-hidden="true"></i> Signup</a>
+                                            <Link className="dropdown-item" to="/signup"> <i className="fa fa-sign-out" aria-hidden="true"></i> Signup</Link>
                                     </div>
                                 </li>
                               )

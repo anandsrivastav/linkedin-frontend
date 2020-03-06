@@ -27,6 +27,28 @@ export function submitCampaign(data) {
     });
 }
 
+export function applyAction(action, ids) {
+  const data = { action_type: action, ids: ids.join(',') }
+  return (dispatch) => {
+    dispatch(applicationIsLoading(true));
+    const querystring = require('querystring');
+    const url = env.REACT_APP_API_URL + `/campaign_operation`;
+    return axios.get(url, {
+      params: data,
+      paramsSerializer: params => {
+        return querystring.stringify(params)
+      }      
+    })
+    .then((response) => {
+      return response
+    }).catch((error) => {
+      dispatch(applicationIsLoading(false));
+      console.log(error)
+      return error
+    })
+  }
+}
+
 export function getCampaigns() {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));

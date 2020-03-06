@@ -16,7 +16,7 @@ class Confirm extends Component {
     const { authorizeToken } = this.props;
     authorizeToken(token)
     .then((res) => {
-      debugger
+      console.log(res)
     }).catch((err) => {
       console.log(err.response.data)
     })

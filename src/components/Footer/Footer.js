@@ -5,7 +5,7 @@ class Footer extends Component {
 
   render() {
     return (
-        <footer>
+        <footer className="fixed-bottom">
             <div className="container">
                 <div className="row">
                     <div className="col-md-4">

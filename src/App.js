@@ -8,6 +8,7 @@ import Footer from './components/Footer/Footer';
 import LoginForm from './containers/Login/LoginForm';
 import PasswordReset from './containers/Password/Reset';
 import PasswordRecovery from './containers/Password/Recovery';
+import Template from './containers/Template/index';
 import RecoveryConfirmation from './containers/Password/Confirm';
 import SingupForm from './containers/Signup/Form';
 import NoRouteFound from './components/NoRoute/NoRoute';
@@ -75,6 +76,7 @@ const App = class App extends Component {
             <PublicOnlyRoute history={history} authed={auth.isAuthenticated} location={location} path="/password-reset" exact component={PasswordReset} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign" exact component={CampaignDashboard} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign/new" exact component={CampaignForm} />
+            <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/templates" exact component={Template} />
             <Route component={NoRouteFound} />
           </Switch>
           <Footer />

@@ -33,7 +33,6 @@ export function setAuthToken(token) {
 export function resetPassword(data) {
   return dispatch => axios.post(env.REACT_APP_API_URL + '/recover_password', data)
     .then(res => {
-      debugger
       return res
     }).catch((err) => {
       return err.response
@@ -63,7 +62,6 @@ export function login(loginData) {
 export function authorizeToken(data) {
   return dispatch => axios.post(env.REACT_APP_API_URL + '/authorize_token', data)
     .then(res => {
-      debugger
       return res
     }).catch((err) => {
       return err.response

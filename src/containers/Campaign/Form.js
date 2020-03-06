@@ -104,7 +104,7 @@ class Form extends Component {
                               }
 
                               <div className="save-cancel-button-container">
-                                  <button type="submit" name="save-new-campaign-button" onClick={this.goSubmit} className="btn btn-dark mb-3">Save</button> <button type="submit" name="cancel-new-campaign-button" className="btn btn-dark mb-3">Cancel</button>
+                                  <button type="submit" name="save-new-campaign-button" onClick={this.goSubmit} className="btn btn-dark mb-3">Save</button> <button type="cancel" name="cancel-new-campaign-button" onClick={(e) => this.props.history.push('/')} className="btn btn-dark mb-3">Cancel</button>
                               </div>
                           </form>
                       </div>
