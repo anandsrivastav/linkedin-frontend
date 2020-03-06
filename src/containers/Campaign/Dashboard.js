@@ -94,7 +94,7 @@ class Dashboard extends Component {
                           </thead>
                           <tbody>
                               {
-                                campaigns.map((campaign, index) => {
+                                (campaigns.length > 0) ? campaigns.map((campaign, index) => {
                                   return campaign.campaign_messages.map((message, index) => {
                                     return(
                                       <tr key={index}>
@@ -155,7 +155,9 @@ class Dashboard extends Component {
                                       </tr>
                                     )
                                   })
-                                })
+                                }) : (
+                                  <tr><td colSpan={5}>No campaigns found. Please create new.</td></tr>
+                                )
                               }
                           </tbody>
                       </table>
