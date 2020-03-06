@@ -2,6 +2,9 @@
   "name": "linkedin-campaign",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.9.1"
+  },
   "dependencies": {
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@testing-library/jest-dom": "^4.2.4",

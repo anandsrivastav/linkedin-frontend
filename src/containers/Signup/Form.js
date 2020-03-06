@@ -153,7 +153,7 @@ class Form extends Component {
                                   </form>
 
                                   <div className="mt-3">
-                                      <p className="text-center">Already have an account? <a href="#">Login Here</a></p>
+                                      <p className="text-center">Already have an account? <a href="/">Login Here</a></p>
                                   </div>
 
                               </div>
