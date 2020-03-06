@@ -35,8 +35,7 @@ export function getCampaigns() {
       url: env.REACT_APP_API_URL + `/campaigns/index`
     })
     .then((response) => {
-        debugger
-        if(response.status !== 200) {
+        if((response.status !== 200) || (res.data.status === 404)) {
           throw Error(response.statusText);
           return [];
         } else {
