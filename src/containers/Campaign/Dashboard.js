@@ -37,9 +37,9 @@ class Dashboard extends Component {
                       <div className="campaign-status-bar mb-3">
                           <nav className="nav">
                               <a className="nav-link active" href="#">All <span>(26)</span></a>
-                              <a className="nav-link" href="#">Started Campaign <span>(10)</span></a>
-                              <a className="nav-link" href="#">Pause Campaign <span>(15)</span></a>
-                              <a className="nav-link" href="#">Ended Campaign <span>(1)</span></a>
+                              <a className="nav-link" href="#">Started Campaign <span>(0)</span></a>
+                              <a className="nav-link" href="#">Pause Campaign <span>(0)</span></a>
+                              <a className="nav-link" href="#">Ended Campaign <span>(0)</span></a>
                           </nav>
                       </div>
                   </div>
