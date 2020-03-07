@@ -8,3 +8,12 @@ export function templates(state = [], action) {
   }
 }
 
+export function template(state = {}, action) {
+  switch (action.type) {
+    case 'SELECT_TEMPLATE':
+        return action.template;
+
+    default:
+        return state;
+  }
+}

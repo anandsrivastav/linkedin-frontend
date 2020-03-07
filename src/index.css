@@ -25,3 +25,12 @@ footer {
 .template-box {
 	border: 1px solid;
 }
+
+.temp-head {
+  color: #00a0c7;
+  margin-top: 2%;
+  font-size: 2.375em;
+  font-weight: 300;
+  line-height: 1.21053em;
+  margin-bottom: .63158em;
+}

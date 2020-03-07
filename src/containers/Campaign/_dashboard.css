@@ -1,3 +1,13 @@
 #add-new-champaign tr > td:nth-child(2) {
   width: 45%;
 }
+
+#add-new-champaign tr > td.single-champaign-action {
+	width: 10%;
+}
+
+.sweet-loading {
+	margin-top: 5%;
+	text-align: center;
+	width: 100%
+}

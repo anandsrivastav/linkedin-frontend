@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getCampaigns, selectCampaign } from '../../actions/campaignActions';
 
 class FollowUp extends Component {
   constructor(props) {

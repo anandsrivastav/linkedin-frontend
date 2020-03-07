@@ -7,13 +7,13 @@ export function register(data) {
     dispatch(applicationIsLoading(true));
     return axios.post(env.REACT_APP_API_URL + '/users', { user: data})
       .then(res => {
-        dispatch(applicationIsLoading(true));
+        dispatch(applicationIsLoading(false));
         if (res.status === 200) {
           return res;
         }
       }).catch((err) => {
         return err.response
-        dispatch(applicationIsLoading(true));
+        dispatch(applicationIsLoading(false));
       });
   }
 

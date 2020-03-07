@@ -28,13 +28,10 @@ class Header extends Component {
                               auth.isAuthenticated ? (
                                 <React.Fragment>
                                   <li className="nav-item active">
-                                      <Link className="nav-link" to="/">Campaign <span className="sr-only">(current)</span></Link>
+                                      <Link className="nav-link" to="campaign">Campaign <span className="sr-only">(current)</span></Link>
                                   </li>
                                   <li className="nav-item">
-                                      <Link className="nav-link" to="/">Dashboard</Link>
-                                  </li>
-                                  <li className="nav-item">
-                                      <Link className="nav-link" to="#">Templates</Link>
+                                      <Link className="nav-link" to="/templates">Templates</Link>
                                   </li>
                                 </React.Fragment>
                               ) : null
@@ -47,7 +44,7 @@ class Header extends Component {
                               auth.isAuthenticated ? (
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Admin
+                                        Actions
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a className="dropdown-item" href="#"><i className="fa fa-user" aria-hidden="true"></i> Profile</a>

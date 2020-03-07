@@ -19,12 +19,17 @@ export function selectCampaign(campaigns) {
 }
 
 export function submitCampaign(data) {
-  return dispatch => axios.post(env.REACT_APP_API_URL + '/campaigns', data)
-    .then(res => {
-      return res
-    }).catch((err) => {
-      return err.response
-    });
+  return (dispatch) => {
+    dispatch(applicationIsLoading(true));
+    return axios.post(env.REACT_APP_API_URL + '/campaigns', data)
+      .then(res => {
+        dispatch(applicationIsLoading(false));
+        return res
+      }).catch((err) => {
+        dispatch(applicationIsLoading(false));
+        return err.response
+      });
+  }
 }
 
 export function applyAction(action, ids) {
@@ -49,14 +54,15 @@ export function applyAction(action, ids) {
   }
 }
 
-export function getCampaigns() {
+export function getCampaigns(url) {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
     return axios({
       method: "get",
-      url: env.REACT_APP_API_URL + `/campaigns/index`
+      url
     })
     .then((response) => {
+      dispatch(applicationIsLoading(false));
         if((response.status !== 200) || (response.data.status === 404)) {
           throw Error(response.statusText);
           return [];

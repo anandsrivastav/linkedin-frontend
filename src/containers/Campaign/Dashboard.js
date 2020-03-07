@@ -7,7 +7,9 @@ import { getCampaigns, selectCampaign, applyAction } from '../../actions/campaig
 import { ButtonToolbar, Button } from 'react-bootstrap';
 import { arrayUpdation } from '../../utils/featuredActions';
 import { isEmpty } from 'lodash';
+import Loader from '../../components/Loader/Loader';
 import './_dashboard.css';
+import { env } from '../../Constants';
 
 class Dashboard extends Component {
   constructor(props, context) {
@@ -16,12 +18,20 @@ class Dashboard extends Component {
       activePage: 1,
       searchVal: '',
       currentFilter: null,
+      filterDates: [],
+      dateValue: null,
       errors: {}
     }
   }
 
   componentDidMount() {
-    this.props.getCampaigns();
+    this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index`);
+    const dates = Array(4).fill(new Date().toDateString()).map((x, y) => {
+      let date = new Date(x)
+      date.setMonth(date.getMonth() + y)
+      return date
+    })
+    this.setState({ filterDates: dates })
   }
 
   handleSelect = (e) => {
@@ -29,6 +39,16 @@ class Dashboard extends Component {
     const campaignIds = arrayUpdation(selectedCampaigns, e.target.name)
     selectCampaign(campaignIds)
     this.setState({ errors: {}});
+  }
+
+  handleDateChange = (e) => {
+    e.preventDefault();
+    this.setState({ dateValue: e.target.value })
+  }
+
+  filterByDate = (e) => {
+    e.preventDefault();
+    this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index?date=${this.state.dateValue}`);
   }
 
   handleAction = (e) => {
@@ -53,7 +73,7 @@ class Dashboard extends Component {
       this.props.applyAction(this.state.currentFilter, this.props.selectedCampaigns)
       .then((res) => {
         if(res.data.status === 200) {
-          this.props.getCampaigns();
+          this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index`);
         }
       }).then((error) => {
         console.log(error);
@@ -81,8 +101,8 @@ class Dashboard extends Component {
   }
 
   render() {
-    let { campaigns, selectedCampaigns } = this.props;
-    const { activePage, searchVal, currentFilter, errors } = this.state;
+    let { campaigns, selectedCampaigns, isLoading } = this.props;
+    const { activePage, searchVal, currentFilter, errors, filterDates } = this.state;
     campaigns = campaigns.filter(record => record.url.includes(searchVal));
 
     let records = JSON.parse(JSON.stringify((campaigns))).splice(activePage === 1 ? 0 : ((activePage - 1)*5), 5);
@@ -132,15 +152,18 @@ class Dashboard extends Component {
 
                               <button className="btn btn-dark mr-3" type="submit" Name="champaign-bulk-action-apply" onClick={this.handleApply}>Apply</button>
 
-                              <select className="custom-select mr-1" id="champaign-bulk-action">
-                                  <option selected>All Dates</option>
-                                  <option value="1">Jan 2020</option>
-                                  <option value="2">Dec 2019</option>
-                                  <option value="3">Nov 2019</option>
-                                  <option value="3">Oct 2019</option>
+                              <select className="custom-select mr-1" id="champaign-bulk-action" onChange={this.handleDateChange}>
+                                  <option>All Dates</option>
+                                  {
+                                    filterDates.map((val, index) => {
+                                      return(
+                                        <option key={val}>{val.toDateString()}</option>
+                                      )
+                                    })
+                                  }
                               </select>
 
-                              <button className="btn btn-dark mr-3" type="submit" Name="champaign-filter">Filter</button>
+                              <button className="btn btn-dark mr-3" type="submit" Name="champaign-filter" onClick={this.filterByDate}>Filter</button>
                           </form>
 
                       </div>    
@@ -155,114 +178,121 @@ class Dashboard extends Component {
                           </div>
                           ) : null
                       }
-                      <table className="table table-striped table-responsive-md table-bordered table-hover" id="add-new-champaign">
-                          <thead className="thead-dark">
-                            <tr>
-                              <th scope="col" className="text-center">Select</th>
-                              <th scope="col">Campaign URL</th>
-                              <th scope="col">Note Message</th>
-                              <th scope="col">Date</th>
-                              <th scope="col">Action</th>                            
-                            </tr>
-                          </thead>
-                          <tbody>
-                              {
-                                (campaigns.length > 0) ? records.map((campaign, index) => {
-                                  return(
-                                    <tr key={campaign.id}>
-                                        <td>
-                                          <div className="form-group">
-                                              <input type="checkbox" onChange={this.handleSelect} name={campaign.id} value="" selected={selectedCampaigns.includes(campaign.id)} />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          {campaign.url}
-                                        </td>
-                                        <td>
-                                          <ul>
-                                            {
-                                              campaign.campaign_messages.map((message) => (
-                                                <li key={message.id}>{message.description}</li>
-                                              ))
-                                            }
-                                          </ul>
-                                        </td>
-                                        <td>
-                                          05/04/2020  14:45:15
-                                        </td>
-                                        <td className="single-champaign-action">
-                                          <React.Fragment>
-                                            <OverlayTrigger
-                                              key="top"
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip id={`tooltip-top-start`}>
-                                                  Start Champaign
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <i className="fa fa-play" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
-                                            </OverlayTrigger>
+                      {
+                        isLoading ? (
+                          <Loader loading={true} />
+                        ) : (
+                          <React.Fragment>
+                            <table className="table table-striped table-responsive-md table-bordered table-hover" id="add-new-champaign">
+                                <thead className="thead-dark">
+                                  <tr>
+                                    <th scope="col" className="text-center">Select</th>
+                                    <th scope="col">Campaign URL</th>
+                                    <th scope="col">Note Message</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Action</th>                            
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                      (campaigns.length > 0) ? records.map((campaign, index) => {
+                                        return(
+                                          <tr key={campaign.id}>
+                                              <td>
+                                                <div className="form-group">
+                                                    <input type="checkbox" onChange={this.handleSelect} name={campaign.id} value="" selected={selectedCampaigns.includes(campaign.id)} />
+                                                </div>
+                                              </td>
+                                              <td>
+                                                {campaign.url}
+                                              </td>
+                                              <td>
+                                                <ul>
+                                                  {
+                                                    campaign.campaign_messages.map((message) => (
+                                                      <li key={message.id}>{message.description}</li>
+                                                    ))
+                                                  }
+                                                </ul>
+                                              </td>
+                                              <td>
+                                                05/04/2020  14:45:15
+                                              </td>
+                                              <td className="single-champaign-action">
+                                                <React.Fragment>
+                                                  <OverlayTrigger
+                                                    key="top"
+                                                    placement="top"
+                                                    overlay={
+                                                      <Tooltip id={`tooltip-top-start`}>
+                                                        Start Champaign
+                                                      </Tooltip>
+                                                    }
+                                                  >
+                                                    <i className="fa fa-play" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
+                                                  </OverlayTrigger>
 
-                                            <OverlayTrigger
-                                              key="top"
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip id={`tooltip-top-pause`}>
-                                                  Pause Champaign
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <i className="fa fa-pause-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pause Champaign"></i>
-                                            </OverlayTrigger>
+                                                  <OverlayTrigger
+                                                    key="top"
+                                                    placement="top"
+                                                    overlay={
+                                                      <Tooltip id={`tooltip-top-pause`}>
+                                                        Pause Champaign
+                                                      </Tooltip>
+                                                    }
+                                                  >
+                                                    <i className="fa fa-pause-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Pause Champaign"></i>
+                                                  </OverlayTrigger>
 
-                                            <OverlayTrigger
-                                              key="top"
-                                              placement="top"
-                                              overlay={
-                                                <Tooltip id={`tooltip-top-end`}>
-                                                  End Champaign
-                                                </Tooltip>
-                                              }
-                                            >
-                                              <i className="fa fa-stop-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="End Champaign"></i>
-                                            </OverlayTrigger>
+                                                  <OverlayTrigger
+                                                    key="top"
+                                                    placement="top"
+                                                    overlay={
+                                                      <Tooltip id={`tooltip-top-end`}>
+                                                        End Champaign
+                                                      </Tooltip>
+                                                    }
+                                                  >
+                                                    <i className="fa fa-stop-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="End Champaign"></i>
+                                                  </OverlayTrigger>
 
-                                          </React.Fragment>
-                                        </td>
-                                    </tr>
-                                  )
-                                }) : (
-                                  <tr><td colSpan={5}>No campaigns found. Please create new.</td></tr>
-                                )
-                              }
-                          </tbody>
-                      </table>
+                                                </React.Fragment>
+                                              </td>
+                                          </tr>
+                                        )
+                                      }) : (
+                                        <tr><td colSpan={5}>No campaigns found. Please create new.</td></tr>
+                                      )
+                                    }
+                                </tbody>
+                            </table>
 
-                      <div className="pagination-content-bar mb-3">
-                          <nav aria-label="...">
-                              <ul className="pagination justify-content-end">
-                                <li className={`page-item ${activePage <= 1 ? 'disabled' : ""}`}>
-                                  <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true" onClick={this.pageChange.bind(this, activePage - 1)}>Previous</Link>
-                                </li>
-                                {
-                                  pages.map((val) => (
-                                    <li className={`page-item ${(activePage === val) ? 'active' : ''}`} key={val} onClick={this.pageChange.bind(this, val)}>
-                                      <Link className="page-link" to="#">{val} </Link>
-                                    </li>
-                                  ))
-                                }
-                                {
-                                  (totalPages < (activePage + 1)) ? (
-                                    <li className="page-item" onClick={ (e) => this.pageChange.bind(e, activePage - 1)} onClick={this.pageChange.bind(this, activePage + 1)}>
-                                      <Link className="page-link" to="#">Next</Link>
-                                    </li>
-                                  ) : null
-                                }
-                              </ul>
-                            </nav>
-                      </div>
-
+                            <div className="pagination-content-bar mb-3">
+                                <nav aria-label="...">
+                                    <ul className="pagination justify-content-end">
+                                      <li className={`page-item ${activePage <= 1 ? 'disabled' : ""}`}>
+                                        <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true" onClick={this.pageChange.bind(this, activePage - 1)}>Previous</Link>
+                                      </li>
+                                      {
+                                        pages.map((val) => (
+                                          <li className={`page-item ${(activePage === val) ? 'active' : ''}`} key={val} onClick={this.pageChange.bind(this, val)}>
+                                            <Link className="page-link" to="#">{val} </Link>
+                                          </li>
+                                        ))
+                                      }
+                                      {
+                                        (totalPages < (activePage + 1)) ? (
+                                          <li className="page-item" onClick={ (e) => this.pageChange.bind(e, activePage - 1)} onClick={this.pageChange.bind(this, activePage + 1)}>
+                                            <Link className="page-link" to="#">Next</Link>
+                                          </li>
+                                        ) : null
+                                      }
+                                    </ul>
+                                  </nav>
+                            </div>
+                          </React.Fragment>
+                        )
+                      }
                   </div>
             </div>
           </div>
@@ -274,13 +304,14 @@ class Dashboard extends Component {
 const mapStateToProps = (state) => {
   return {
     campaigns: state.campaigns,
-    selectedCampaigns: state.selectedCampaigns
+    selectedCampaigns: state.selectedCampaigns,
+    isLoading: state.applicationIsLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCampaigns: () => dispatch(getCampaigns()),
+    getCampaigns: (url) => dispatch(getCampaigns(url)),
     selectCampaign: (data) => dispatch(selectCampaign(data)),
     applyAction: (action, ids) => dispatch(applyAction(action, ids))
   }

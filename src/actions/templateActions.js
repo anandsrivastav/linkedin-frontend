@@ -9,6 +9,13 @@ export function templatesFetchDataSuccess(templates) {
 	}
 }
 
+export function selectTemplate(template) {
+  return {
+    type: 'SELECT_TEMPLATE',
+    template
+  }
+}
+
 export function fetchTemplates() {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));

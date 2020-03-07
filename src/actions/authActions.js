@@ -3,6 +3,7 @@ import { env } from '../Constants';
 import jwtdecode from 'jwt-decode';
 import { SET_CURRENT_USER, SET_USER_DATA } from './types';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
+import { applicationIsLoading } from './applicationActions';
 
 export function setCurrentUser(user) {
   return {
@@ -40,23 +41,28 @@ export function resetPassword(data) {
 }
 
 export function login(loginData) {
-  return dispatch => axios.post(env.REACT_APP_API_URL + '/authenticate', loginData)
-    .then(res => {
-      if (res.status === 200) {
-        const token = res.data.auth_token;
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('accessTokenDate');
+  return dispatch => {
+    dispatch(applicationIsLoading(true));
+    return axios.post(env.REACT_APP_API_URL + '/authenticate', loginData)
+      .then(res => {
+        dispatch(applicationIsLoading(false));
+        if (res.status === 200) {
+          const token = res.data.auth_token;
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('accessTokenDate');
 
-        localStorage.setItem('accessToken', token);
-        localStorage.setItem('accessTokenDate', (new Date()).getTime());
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('accessTokenDate', (new Date()).getTime());
 
-        setAuthorizationToken(token);
-        dispatch(setCurrentUser(jwtdecode(token)));
-        return res;
-      }
-    }).catch((err) => {
-      return err.response
-    });
+          setAuthorizationToken(token);
+          dispatch(setCurrentUser(jwtdecode(token)));
+          return res;
+        }
+      }).catch((err) => {
+        dispatch(applicationIsLoading(false));
+        return err.response
+      });
+  } 
 }
 
 export function authorizeToken(data) {

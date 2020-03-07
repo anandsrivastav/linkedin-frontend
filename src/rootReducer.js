@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 import { applicationIsLoading, userData } from './reducers/applicationReducer';
 import { campaigns, selectedCampaigns } from './reducers/campaignReducer';
-import { templates } from './reducers/templateReducer';
+import { templates, template } from './reducers/templateReducer';
 import auth from './reducers/auth';
 
 export default combineReducers({
@@ -11,5 +11,6 @@ export default combineReducers({
   campaigns,
   selectedCampaigns,
   userData,
-  templates
+  templates,
+  template
 });
