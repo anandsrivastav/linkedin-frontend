@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { applicationIsLoading } from './applicationActions';
-import { CAMPAIGN_FETCH_DATA_SUCCESS, SELECTED_CAMPAIGN_UPDATED } from '../constants/types';
+import { CAMPAIGN_FETCH_DATA_SUCCESS, SELECTED_CAMPAIGN_UPDATED, CAMPAIGN_PLAY_FETCH_DATA_SUCCESS } from '../constants/types';
 
 import { env } from '../Constants';
 
@@ -74,6 +74,42 @@ export function getCampaigns(url) {
     .then(campaigns => {
       dispatch(campaignFetchDataSuccess(campaigns));
       return campaigns
+    })
+    .catch((error) => {
+      dispatch(applicationIsLoading(false));
+      console.log(error)
+      return error
+    })
+  }
+}
+
+export function campaignPlayFetchDataSuccess(campaignPlay) {
+  return {
+    type: CAMPAIGN_PLAY_FETCH_DATA_SUCCESS,
+    campaignPlay
+  }
+}
+
+export function getCampaignPlay(url) {
+  return (dispatch) => {
+    dispatch(applicationIsLoading(true));
+    return axios({
+      method: "get",
+      url
+    })
+    .then((response) => {
+      dispatch(applicationIsLoading(false));
+        if((response.status !== 200) || (response.data.status === 404)) {
+          throw Error(response.statusText);
+          return [];
+        } else {
+          return response.data
+        }
+      }
+    )
+    .then(campaignPlay => {
+      dispatch(campaignPlayFetchDataSuccess(campaignPlay));
+      return campaignPlay
     })
     .catch((error) => {
       dispatch(applicationIsLoading(false));

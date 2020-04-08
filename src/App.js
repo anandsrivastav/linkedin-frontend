@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import CampaignDashboard from './containers/Campaign/Dashboard';
+import CampaignPlay from './containers/Campaign/CampaignPlay';
 import CampaignForm from './containers/Campaign/Form';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -76,6 +77,7 @@ const App = class App extends Component {
             <PublicOnlyRoute history={history} authed={auth.isAuthenticated} location={location} path="/password-reset" exact component={PasswordReset} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign" exact component={CampaignDashboard} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign/new" exact component={CampaignForm} />
+            <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign/play/:id" exact component={CampaignPlay} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/templates" exact component={Template} />
             <Route component={NoRouteFound} />
           </Switch>

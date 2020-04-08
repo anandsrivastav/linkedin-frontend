@@ -100,6 +100,12 @@ class Dashboard extends Component {
     return pages
   }
 
+  campaignPlay = (campaignIds) => {
+    //console.log('campaignIds',campaignIds)
+    // this.props.history.push('/campaign/play')
+    this.props.history.push(`/campaign/play/${campaignIds}`)
+  }
+
   render() {
     let { campaigns, selectedCampaigns, isLoading } = this.props;
     const { activePage, searchVal, currentFilter, errors, filterDates } = this.state;
@@ -229,7 +235,7 @@ class Dashboard extends Component {
                                                       </Tooltip>
                                                     }
                                                   >
-                                                    <i className="fa fa-play" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
+                                                    <i className="fa fa-play" onClick={this.campaignPlay.bind(this,campaign.id)} aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
                                                   </OverlayTrigger>
 
                                                   <OverlayTrigger
