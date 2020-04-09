@@ -163,7 +163,7 @@ class CampaignPlay extends Component {
                                                 </div>
                                               </td>
                                               <td>
-                                                <img src={campaign.image_url} /> <span> {campaign.full_name} </span>
+                                                <img src={(campaign.image_url === "NA") ? '../../default.jpg' : campaign.image_url} /> <span> {campaign.full_name} </span>
                                               </td>
                                               <td>
                                                 {campaign.title}
@@ -180,29 +180,9 @@ class CampaignPlay extends Component {
                                 </tbody>
                             </table>
 
-                           {/* <div className="pagination-content-bar mb-3">
-                                                           <nav aria-label="...">
-                                                               <ul className="pagination justify-content-end">
-                                                                 <li className={`page-item ${activePage <= 1 ? 'disabled' : ""}`}>
-                                                                   <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true" onClick={this.pageChange.bind(this, activePage - 1)}>Previous</Link>
-                                                                 </li>
-                                                                 {
-                                                                   pages.map((val) => (
-                                                                     <li className={`page-item ${(activePage === val) ? 'active' : ''}`} key={val} onClick={this.pageChange.bind(this, val)}>
-                                                                       <Link className="page-link" to="#">{val} </Link>
-                                                                     </li>
-                                                                   ))
-                                                                 }
-                                                                 {
-                                                                   (totalPages < (activePage + 1)) ? (
-                                                                     <li className="page-item" onClick={ (e) => this.pageChange.bind(e, activePage - 1)} onClick={this.pageChange.bind(this, activePage + 1)}>
-                                                                       <Link className="page-link" to="#">Next</Link>
-                                                                     </li>
-                                                                   ) : null
-                                                                 }
-                                                               </ul>
-                                                             </nav>
-                                                       </div>  */}
+                           <div className="pagination-content-bar mb-3">
+                                   
+                            </div>     
                           </React.Fragment>
                         )
                       }
