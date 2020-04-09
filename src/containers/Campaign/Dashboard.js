@@ -10,6 +10,7 @@ import { isEmpty } from 'lodash';
 import Loader from '../../components/Loader/Loader';
 import './_dashboard.css';
 import { env } from '../../Constants';
+import {REACT_API_URL} from '../../constants/env.js'
 
 class Dashboard extends Component {
   constructor(props, context) {
@@ -29,7 +30,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index`);
+    this.props.getCampaigns(REACT_API_URL + `/campaigns/index`);
     const dates = Array(4).fill(new Date().toDateString()).map((x, y) => {
       let date = new Date(x)
       date.setMonth(date.getMonth() + y)
@@ -52,7 +53,7 @@ class Dashboard extends Component {
 
   filterByDate = (e) => {
     e.preventDefault();
-    this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index?date=${this.state.dateValue}`);
+    this.props.getCampaigns(REACT_API_URL + `/campaigns/index?date=${this.state.dateValue}`);
   }
 
   handleAction = (e) => {
@@ -77,7 +78,7 @@ class Dashboard extends Component {
       this.props.applyAction(this.state.currentFilter, this.props.selectedCampaigns)
       .then((res) => {
         if(res.data.status === 200) {
-          this.props.getCampaigns(env.REACT_APP_API_URL + `/campaigns/index`);
+          this.props.getCampaigns(REACT_API_URL + `/campaigns/index`);
         }
       }).then((error) => {
         console.log(error);

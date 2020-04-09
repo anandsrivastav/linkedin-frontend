@@ -12,6 +12,8 @@ import { isEmpty } from 'lodash';
 import Loader from '../../components/Loader/Loader';
 import './_dashboard.css';
 import { env } from '../../Constants';
+import {REACT_API_URL} from '../../constants/env.js'
+
 
 class CampaignPlay extends Component {
   constructor(props, context) {
@@ -28,7 +30,7 @@ class CampaignPlay extends Component {
 
   componentDidMount() {
     // console.log('${this.props.match.params.id}',this.props.match.params.id)
-    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1);
+    this.props.getCampaignPlay(REACT_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1);
     
   }
 
@@ -61,7 +63,7 @@ class CampaignPlay extends Component {
       this.props.applyAction(this.state.currentFilter, this.props.selectedCampaigns)
       .then((res) => {
         if(res.data.status === 200) {
-          this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/index`);
+          this.props.getCampaignPlay(REACT_API_URL + `/campaigns/index`);
         }
       }).then((error) => {
         console.log(error);
@@ -77,7 +79,7 @@ class CampaignPlay extends Component {
 
   changeCurrentPage = (page, e) => {
     this.setState({ activePage: page})
-    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+page);
+    this.props.getCampaignPlay(REACT_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+page);
   }
 
   

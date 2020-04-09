@@ -6,7 +6,7 @@ import {REACT_API_URL} from '../constants/env.js'
 export function register(data) {
   return dispatch => {
     dispatch(applicationIsLoading(true));
-    return axios.post(env.REACT_APP_API_URL + '/users', { user: data})
+    return axios.post(REACT_API_URL + '/users', { user: data})
       .then(res => {
         dispatch(applicationIsLoading(false));
         if (res.status === 200) {
