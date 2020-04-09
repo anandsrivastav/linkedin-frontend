@@ -5,7 +5,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { getCampaignPlay, selectCampaign, applyAction } from '../../actions/campaignActions';
 import { ButtonToolbar, Button } from 'react-bootstrap';
-import { Paginate } from 'react-pagination-component';
+import Pagination from "react-pagination-library";
+import "react-pagination-library/build/css/index.css"; //for css
 import { arrayUpdation } from '../../utils/featuredActions';
 import { isEmpty } from 'lodash';
 import Loader from '../../components/Loader/Loader';
@@ -74,28 +75,17 @@ class CampaignPlay extends Component {
     this.setState({ searchVal: e.target.value })
   }
 
-  pageChange = (page, e) => {
+  changeCurrentPage = (page, e) => {
     this.setState({ activePage: page})
+    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+page);
   }
 
-  getPages = (totalPages) => {
-    totalPages = parseInt(totalPages)
-    const { activePage } = this.state;
-    const ary2 = [activePage, (activePage + 1)]
-    const ary3 = [activePage, activePage + 1, activePage + 2]
-    const pages = ((activePage + 2) <= totalPages) ? ary3 : (((activePage + 1) <=  totalPages) ? ary2 : [activePage])
-    return pages
-  }
-
+  
   render() {
     let { campaignPlay, selectedCampaigns, isLoading } = this.props;
     const { activePage, searchVal, currentFilter, errors, filterDates } = this.state;
-    // campaigns = campaigns.filter(record => record.url.includes(searchVal));
 
-    // let records = JSON.parse(JSON.stringify((campaigns))).splice(activePage === 1 ? 0 : ((activePage - 1)*5), 5);
-    // const totalPages = (campaigns.length / 5) + (((campaigns % 5) === 0) ? 0 : 1);
-    // const pages = this.getPages(totalPages)
-    console.log('campaignPlay',campaignPlay)
+    // console.log('campaignPlay',campaignPlay)
     return (
       <main>
           <div className="container">
@@ -179,10 +169,16 @@ class CampaignPlay extends Component {
                                     }
                                 </tbody>
                             </table>
-
-                           <div className="pagination-content-bar mb-3">
-                                   
-                            </div>     
+                           {(campaignPlay.length > 0 || (typeof campaignPlay.data !== 'undefined' && typeof campaignPlay.data.last_page_number !== "")) &&
+                             <div className="pagination-content-bar mb-3">
+                              <Pagination
+                                currentPage={this.state.activePage}
+                                totalPages={campaignPlay.data.last_page_number}
+                                changeCurrentPage={this.changeCurrentPage}
+                                theme="bottom-border"
+                              /> 
+                            </div>
+                          }
                           </React.Fragment>
                         )
                       }

@@ -146,7 +146,7 @@ class Dashboard extends Component {
               <div className="row">
                   <div className="col-md-12">
                       <div className="add-new-campaign-bar mb-3 mt-3">
-                          <Link to="/campaign/new"><button className="btn btn-dark" type="button" Name="add-new-champaign">Add New Champaign</button></Link>
+                          <Link to="/campaign/new"><button className="btn btn-dark" type="button" Name="add-new-champaign">Add New Campaign</button></Link>
                       </div>
                   </div>
               </div>
@@ -154,7 +154,7 @@ class Dashboard extends Component {
                   <div className="col-md-8">
                       <div className="campaign-status-bar mb-3">
                           <nav className="nav">
-                              <Link className="nav-link active" to="#">All <span>({campaigns.length + 1})</span></Link>
+                              <Link className="nav-link active" to="#">All <span>({campaigns.length})</span></Link>
                               <Link className="nav-link" to="#">Started Campaign <span>({campaigns.filter(camp => camp.status === 'Started').length})</span></Link>
                               <Link className="nav-link" to="#">Pause Campaign <span>({campaigns.filter(camp => camp.status === 'Pause').length})</span></Link>
                               <Link className="nav-link" to="#">Ended Campaign <span>({campaigns.filter(camp => camp.status === 'Ended').length})</span></Link>
