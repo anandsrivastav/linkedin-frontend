@@ -1,4 +1,4 @@
 
 
-export const REACT_API_URL = 'http://14b4f6e1.ngrok.io'
+export const REACT_API_URL = 'http://localhost:8000'
 

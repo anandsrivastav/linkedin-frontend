@@ -10,6 +10,8 @@ import LoginForm from './containers/Login/LoginForm';
 import PasswordReset from './containers/Password/Reset';
 import PasswordRecovery from './containers/Password/Recovery';
 import Template from './containers/Template/index';
+import CreateTemplate from './containers/Template/CreateTemplate';
+import UpdateTemplate from './containers/Template/UpdateTemplate';
 import RecoveryConfirmation from './containers/Password/Confirm';
 import SingupForm from './containers/Signup/Form';
 import NoRouteFound from './components/NoRoute/NoRoute';
@@ -79,6 +81,8 @@ const App = class App extends Component {
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign/new" exact component={CampaignForm} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/campaign/play/:id" exact component={CampaignPlay} />
             <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/templates" exact component={Template} />
+            <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/templates/new" exact component={CreateTemplate} />
+            <PrivateRoute history={history} authed={auth.isAuthenticated} location={location} path="/templates/update/:id" exact component={UpdateTemplate} /> 
             <Route component={NoRouteFound} />
           </Switch>
           <Footer />
