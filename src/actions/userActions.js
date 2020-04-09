@@ -2,13 +2,14 @@ import axios from 'axios';
 import { applicationIsLoading } from './applicationActions';
 import { setCurrentUser, setUserData } from './authActions';
 import { env } from '../Constants';
+import {REACT_API_URL} from '../constants/env.js'
 
 export function fetchCurrentUser(){
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
     return axios({
       method: "get",
-      url: env.REACT_APP_API_URL + `users/get_current_user`,
+      url: REACT_API_URL + `users/get_current_user`,
       headers: {
         Authorization: localStorage.accessToken,
         "content-type": "multipart/form-data"

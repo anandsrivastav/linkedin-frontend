@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { applicationIsLoading } from './applicationActions';
 import { CAMPAIGN_FETCH_DATA_SUCCESS, SELECTED_CAMPAIGN_UPDATED, CAMPAIGN_PLAY_FETCH_DATA_SUCCESS } from '../constants/types';
-
+import {REACT_API_URL} from '../constants/env.js'
 import { env } from '../Constants';
 
 
@@ -22,7 +22,7 @@ export function selectCampaign(campaigns) {
 export function submitCampaign(data) {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
-    return axios.post(env.REACT_APP_API_URL + '/campaigns', data)
+    return axios.post(REACT_API_URL + '/campaigns', data)
       .then(res => {
         dispatch(applicationIsLoading(false));
         return res
@@ -38,7 +38,7 @@ export function applyAction(action, ids) {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
     const querystring = require('querystring');
-    const url = env.REACT_APP_API_URL + `/campaign_operation`;
+    const url = REACT_API_URL + `/campaign_operation`;
     return axios.get(url, {
       params: data,
       paramsSerializer: params => {

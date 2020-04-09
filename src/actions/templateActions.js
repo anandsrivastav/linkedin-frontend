@@ -1,6 +1,7 @@
 import { applicationIsLoading } from './applicationActions';
 import axios from 'axios';
 import { env } from '../Constants';
+import {REACT_API_URL} from '../constants/env.js'
 
 export function templatesFetchDataSuccess(templates) {
 	return {
@@ -21,7 +22,7 @@ export function fetchTemplates() {
     dispatch(applicationIsLoading(true));
     return axios({
       method: "get",
-      url: env.REACT_APP_API_URL + `/templates/index`
+      url: REACT_API_URL + `/templates/index`
     })
     .then((response) => {
         if((response.status !== 200) || (response.data.status === 404)) {

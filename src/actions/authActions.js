@@ -4,6 +4,7 @@ import jwtdecode from 'jwt-decode';
 import { SET_CURRENT_USER, SET_USER_DATA } from './types';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 import { applicationIsLoading } from './applicationActions';
+import {REACT_API_URL} from '../constants/env.js'
 
 export function setCurrentUser(user) {
   return {
@@ -32,7 +33,7 @@ export function setAuthToken(token) {
 }
 
 export function resetPassword(data) {
-  return dispatch => axios.post(env.REACT_APP_API_URL + '/recover_password', data)
+  return dispatch => axios.post(REACT_API_URL + '/recover_password', data)
     .then(res => {
       return res
     }).catch((err) => {
@@ -43,7 +44,7 @@ export function resetPassword(data) {
 export function login(loginData) {
   return dispatch => {
     dispatch(applicationIsLoading(true));
-    return axios.post(env.REACT_APP_API_URL + '/authenticate', loginData)
+    return axios.post(REACT_API_URL + '/authenticate', loginData)
       .then(res => {
         dispatch(applicationIsLoading(false));
         if (res.status === 200) {
@@ -66,7 +67,7 @@ export function login(loginData) {
 }
 
 export function authorizeToken(data) {
-  return dispatch => axios.post(env.REACT_APP_API_URL + '/authorize_token', data)
+  return dispatch => axios.post(REACT_API_URL + '/authorize_token', data)
     .then(res => {
       return res
     }).catch((err) => {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { env } from '../Constants';
 import { applicationIsLoading } from './applicationActions';
+import {REACT_API_URL} from '../constants/env.js'
 
 export function register(data) {
   return dispatch => {
