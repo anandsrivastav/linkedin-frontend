@@ -5,6 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { getCampaignPlay, selectCampaign, applyAction } from '../../actions/campaignActions';
 import { ButtonToolbar, Button } from 'react-bootstrap';
+import { Paginate } from 'react-pagination-component';
 import { arrayUpdation } from '../../utils/featuredActions';
 import { isEmpty } from 'lodash';
 import Loader from '../../components/Loader/Loader';
@@ -26,16 +27,8 @@ class CampaignPlay extends Component {
 
   componentDidMount() {
     // console.log('${this.props.match.params.id}',this.props.match.params.id)
-    // this.props.getCampaignPlay(`http://0c1d0199.ngrok.io/campaigns/${this.props.match.params.id}/start.json`);
+    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1);
     
-    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/${this.props.match.params.id}/start.json`);
-    // this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/index`);
-    const dates = Array(4).fill(new Date().toDateString()).map((x, y) => {
-      let date = new Date(x)
-      date.setMonth(date.getMonth() + y)
-      return date
-    })
-    this.setState({ filterDates: dates })
   }
 
   handleSelect = (e) => {
@@ -43,16 +36,6 @@ class CampaignPlay extends Component {
     const campaignIds = arrayUpdation(selectedCampaigns, e.target.name)
     selectCampaign(campaignIds)
     this.setState({ errors: {}});
-  }
-
-  handleDateChange = (e) => {
-    e.preventDefault();
-    this.setState({ dateValue: e.target.value })
-  }
-
-  filterByDate = (e) => {
-    e.preventDefault();
-    this.props.getCampaignPlay(env.REACT_APP_API_URL + `/campaigns/index?date=${this.state.dateValue}`);
   }
 
   handleAction = (e) => {
@@ -171,7 +154,7 @@ class CampaignPlay extends Component {
                                 </thead>
                                 <tbody>
                                     {
-                                      (campaignPlay.length > 0) ? campaignPlay.map((campaign, index) => {
+                                      (campaignPlay.length > 0 || typeof campaignPlay.data !== 'undefined') ? campaignPlay.data.profiles.map((campaign, index) => {
                                         return(
                                           <tr key={campaign.id}>
                                               <td className="single-champaign-action">
@@ -191,7 +174,7 @@ class CampaignPlay extends Component {
                                           </tr>
                                         )
                                       }) : (
-                                        <tr><td colSpan={4}>No campaigns found. Please create new.</td></tr>
+                                        <tr><td colSpan={4}>{campaignPlay.message}.</td></tr>
                                       )
                                     }
                                 </tbody>

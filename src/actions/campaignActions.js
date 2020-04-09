@@ -4,6 +4,7 @@ import { CAMPAIGN_FETCH_DATA_SUCCESS, SELECTED_CAMPAIGN_UPDATED, CAMPAIGN_PLAY_F
 
 import { env } from '../Constants';
 
+
 export function campaignFetchDataSuccess(campaigns) {
   return {
     type: CAMPAIGN_FETCH_DATA_SUCCESS,
@@ -91,6 +92,9 @@ export function campaignPlayFetchDataSuccess(campaignPlay) {
 }
 
 export function getCampaignPlay(url) {
+
+  axios.defaults.headers.common['linkedin_cookie'] = localStorage.linkedin_cookie;
+
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
     return axios({

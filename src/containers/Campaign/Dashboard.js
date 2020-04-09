@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { getCampaigns, selectCampaign, applyAction } from '../../actions/campaignActions';
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { ButtonToolbar, Button, Modal } from 'react-bootstrap';
 import { arrayUpdation } from '../../utils/featuredActions';
 import { isEmpty } from 'lodash';
 import Loader from '../../components/Loader/Loader';
@@ -20,7 +20,11 @@ class Dashboard extends Component {
       currentFilter: null,
       filterDates: [],
       dateValue: null,
-      errors: {}
+      errors: {},
+      show: false,
+      campaignIds: '',
+      linkedin_cookie: localStorage.linkedin_cookie,
+      errorMsg: ""
     }
   }
 
@@ -100,10 +104,31 @@ class Dashboard extends Component {
     return pages
   }
 
-  campaignPlay = (campaignIds) => {
+  campaignPlay = (e) => {
+    e.preventDefault(); 
+    if(this.state.linkedin_cookie !== ""){
+      localStorage.setItem('linkedin_cookie', this.state.linkedin_cookie);
+      this.props.history.push(`/campaign/play/${this.state.campaignIds}`)
+    }else{
+      this.setState({errorMsg: 'Please Enter Linkedin cookie.("li_at")'})
+    }
+    
     //console.log('campaignIds',campaignIds)
     // this.props.history.push('/campaign/play')
-    this.props.history.push(`/campaign/play/${campaignIds}`)
+    // this.props.history.push(`/campaign/play/${campaignIds}`)
+  }
+
+
+  handleShow = (campaignIds) => {
+      this.setState({show: true, campaignIds: campaignIds})
+  };
+
+  handleClose = () => {
+      this.setState({show: false})
+  }; 
+
+  fieldValChange = (e) => {
+    this.setState({[e.target.name] : e.target.value, errorMsg: ''})
   }
 
   render() {
@@ -235,7 +260,7 @@ class Dashboard extends Component {
                                                       </Tooltip>
                                                     }
                                                   >
-                                                    <i className="fa fa-play" onClick={this.campaignPlay.bind(this,campaign.id)} aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
+                                                    <i className="fa fa-play" onClick={this.handleShow.bind(this,campaign.id)} aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Start Champaign"></i>
                                                   </OverlayTrigger>
 
                                                   <OverlayTrigger
@@ -302,6 +327,24 @@ class Dashboard extends Component {
                   </div>
             </div>
           </div>
+          <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Enter Linkedin cookie ("li_at")</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input type="text" name="linkedin_cookie" className="form-control" id="email-address" value={this.state.linkedin_cookie} onChange={this.fieldValChange} required />
+              <span className="help-cookie"><a href="https://support.phantombuster.com/hc/en-001/articles/360007071719-How-to-get-your-cookies-with-Phantombuster" target="_blank">How to get your cookies manually?</a></span>
+              <span>{this.state.errorMsg}</span>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose.bind(this)}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={this.campaignPlay.bind(this)}>
+                Campaign Play
+              </Button>
+            </Modal.Footer>
+          </Modal>
       </main>
     )
   }
