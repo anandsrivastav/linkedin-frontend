@@ -17,6 +17,9 @@ import SingupForm from './containers/Signup/Form';
 import NoRouteFound from './components/NoRoute/NoRoute';
 import './App.css';
 import './assets/common.css';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 class ScrollToTop extends Component {
   componentDidUpdate(prevProps) {
@@ -68,6 +71,7 @@ const App = class App extends Component {
 
     return (
       <ScrollToTop location={this.props.location}>
+          <NotificationContainer/>
           <Header />
           <Switch>
             <Route exact location={this.props.location} path="/" render={(props) => (

@@ -111,6 +111,26 @@ export function saveTemplate(data) {
 }
 
 
+export function updateTemplate(data) {
+  let dataSend = {template: data}
+  return dispatch => {
+    dispatch(applicationIsLoading(true));
+    return axios.put(REACT_API_URL + `/templates/${data.id}`, dataSend)
+      .then(res => {
+        dispatch(saveTemplateAction(res))
+        dispatch(applicationIsLoading(false));
+        if (res.status === 200) {
+          return res;
+        }
+      }).catch((err) => {
+        dispatch(applicationIsLoading(false));
+        return err.response
+      });
+  } 
+}
+
+
+
 
 export function deleteTemplate() {
   return (dispatch) => {

@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveTemplate,fetchTemplate } from '../../actions/templateActions';
+import { saveTemplate,fetchTemplate,updateTemplate } from '../../actions/templateActions';
 import Loader from '../../components/Loader/Loader';
-
+import {NotificationManager} from 'react-notifications';
 
 class TemplateForm extends Component {
 	constructor(props){
@@ -27,8 +27,23 @@ class TemplateForm extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault()
-		this.props.saveTemplate(this.state.data).then(
-			() => this.props.history.push('/templates'))
+		if(this.props.fromUpdate){
+			let dataToSend = this.state.data
+			dataToSend.id = this.props.location.state.templateId
+			this.props.updateTemplate(dataToSend).then(
+			() => {
+			    NotificationManager.success('Template Updated', 'Updated');
+				this.props.history.push('/templates')
+	     	})
+		}
+		else{
+			this.props.saveTemplate(this.state.data).then(
+			() => {
+				NotificationManager.success('Template Created', 'Created');
+				this.props.history.push('/templates')
+			})
+		}
+		
 	}
 
 	componentDidMount = () => {
@@ -114,6 +129,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveTemplate: (data) => dispatch(saveTemplate(data)),
+    updateTemplate: (data) => dispatch(updateTemplate(data)),
     fetchTemplate: (id) => dispatch(fetchTemplate(id))
 }
 }
