@@ -33,7 +33,9 @@ class CampaignPlay extends Component {
     // console.log('${this.props.match.params.id}',this.props.match.params.id)
     this.props.getCampaignPlay(REACT_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1)
     .then((response) => {
-      this.setState({totalPages: response.data.last_page_number})
+      if(typeof response.data !== 'undefined'){
+         this.setState({totalPages: response.data.last_page_number})  
+      }
       // console.log(response.data.last_page_number,'did')
     })
   }
@@ -185,7 +187,7 @@ class CampaignPlay extends Component {
                                 currentPage={this.state.activePage}
                                 totalPages={this.state.totalPages}
                                 changeCurrentPage={this.changeCurrentPage}
-                                theme="bottom-border"
+                                theme="square-i"
                               /> 
                             </div>
                           }

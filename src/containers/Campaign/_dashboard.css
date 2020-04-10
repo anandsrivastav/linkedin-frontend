@@ -16,10 +16,27 @@
 	width: 100%
 }
 
-.bottom-border.pagination {
-    width: 40%;
+.square-fill.pagination {
+    float: right;
     margin: 0 auto;
 }
 .pagination ul{
 	font-weight: 800;
+}
+.square-i a {
+    border: 3px solid #dee2e6 !important;
+    margin: auto 5px;
+    color: #2ecc71;
+    font-weight: 700;
+}
+.square-i .is-active {
+    background-color: #343a40 !important;
+    color: #fff;
+}
+.square-i a:last-of-type {
+    color: #000;
+    font-weight: 700;
+}
+.pagination-content-bar {
+	float: right;
 }
