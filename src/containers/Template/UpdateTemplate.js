@@ -11,7 +11,7 @@ export default class  UpateTemplate extends Component {
 			<div>
 			 i M Updtae
 
-			 <TemplateForm />
+			 <TemplateForm history={this.props.history} location={this.props.location}/>
 			 </div>
 		)
 	}

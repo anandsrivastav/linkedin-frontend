@@ -25,11 +25,14 @@ class Index extends Component {
               <th scope="row">
                  <img src="https://via.placeholder.com/250x100" />
                </th>
-              <td>
-               {tem.title}
+               <td>
+               {tem.template_name}
                </td>
               <td>
-              {tem.description}
+               {tem.template_subject}
+               </td>
+              <td>
+              {tem.body}
               </td>
               <td>{tem.title}</td>
               <td>

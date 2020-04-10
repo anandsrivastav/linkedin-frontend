@@ -1,15 +1,16 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { selectCampaign, submitCampaign } from '../../actions/campaignActions';
+import { saveTemplate } from '../../actions/templateActions';
 
 
 class TemplateForm extends Component {
 	constructor(props){
 		super(props)
 		this.state = { 
-			formData: {
-				subject: '',
+			data: {
+				template_name: '',
+				template_subject: '',
 				body: '',
 				template_type: 'normal'
 			}
@@ -18,17 +19,19 @@ class TemplateForm extends Component {
 	
 
 	onChange =(e) => {
-		let formData = this.state.formData
-		formData[e.target.name] = e.target.value
-		this.setState({formData: formData})
+		let data = this.state.data
+		data[e.target.name] = e.target.value
+		this.setState({data: data})
 	}
 
-	handleSubmit = () => {
-
+	handleSubmit = (e) => {
+		e.preventDefault()
+		this.props.saveTemplate(this.state.data).then(
+			() => this.props.history.push('/templates'))
 	}
 
 	render(){
-		let {formData} = this.state
+		let {data} = this.state
 		return(
 			<div>
 			    <form>
@@ -36,24 +39,24 @@ class TemplateForm extends Component {
 	                      <div className="card-body">
 	                          <div className="add-campaign-upper-section">
 	                              <div className="form-group">
-	                                  <select class="form-control" onChange={this.onChange}  defaultValue='normal' name='template_type'>
+	                                  <select className="form-control" onChange={this.onChange}  defaultValue='normal' name='template_type'>
 	                                     <option  value='normal'> Normal Tempalte </option>
 	                                     <option value='linkedin'> Linkedin Tempalte </option> 
 	                                  </select>
 	                              </div>
 
-	                              		                              <div className="form-group">
-		                                  <input type="text" className="form-control" name="templateName" defaultValue={formData.name} 
+	                                <div className="form-group">
+		                                  <input type="text" className="form-control" name="template_name" defaultValue={data.template_name} 
 		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
-		                              </div>
+		                            </div>
 
 	                              
-	                              {formData.template_type == 'normal' ? 
+	                              {data.template_type == 'normal' ? 
 
 	                              <React.Fragment>
 
 		                              <div className="form-group">
-		                                  <textarea className="form-control" name="subject" defaultValue={formData.subject} 
+		                                  <textarea className="form-control" name="template_subject" defaultValue={data.template_subject} 
 		                                    onChange={this.onChange} placeholder="Tempalte Subject" rows={2} required>
 		                                  </textarea>
 		                              </div> 
@@ -63,7 +66,7 @@ class TemplateForm extends Component {
 	                           }
 
 	                              <div className="form-group">
-	                                  <textarea className="form-control" name="body" defaultValue={formData.body} 
+	                                  <textarea className="form-control" name="body" defaultValue={data.body} 
 	                                    onChange={this.onChange} rows={10} placeholder="Tempalte Body" required>
 	                                  </textarea>
 	                              </div>
@@ -101,9 +104,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    submitCampaign: (data) => dispatch(submitCampaign(data)),
-    selectCampaign: (data) => dispatch(selectCampaign(data))
-  }
+    saveTemplate: (data) => dispatch(saveTemplate(data))  
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TemplateForm);

@@ -18,6 +18,14 @@ export function selectTemplate(template) {
 }
 
 
+export function saveTemplateAction(template) {
+  return {
+    type: 'SAVE_TEMPLATE',
+    template
+  }
+}
+
+
 export function fetchTemplates() {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
@@ -48,10 +56,13 @@ export function fetchTemplates() {
 
 
 export function saveTemplate(data) {
+  let dataSend = {template: data}
   return dispatch => {
     dispatch(applicationIsLoading(true));
-    return axios.post(REACT_API_URL + '/authenticate', data)
+    return axios.post(REACT_API_URL + '/templates', dataSend)
       .then(res => {
+        console.log('111111111111',res)
+        dispatch(saveTemplateAction(res))
         dispatch(applicationIsLoading(false));
         if (res.status === 200) {
           return res;

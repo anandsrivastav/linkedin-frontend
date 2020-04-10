@@ -13,6 +13,9 @@ export function template(state = {}, action) {
     case 'SELECT_TEMPLATE':
         return action.template;
 
+    case 'SAVE_TEMPLATE':
+        return action.template;
+
     default:
         return state;
   }
