@@ -50,26 +50,28 @@ class Index extends Component {
 
     let rows = templates && templates.map(tem => {
           allRows.push( 
-            <tr>
-              <th scope="row">
+            <tr key={tem.id}>
+              <td scope="col">
                  <img src="https://via.placeholder.com/200x100" />
-               </th>
+               </td>
                <td>
                {tem.template_name}
                </td>
-              <td>
+              <td scope="col">
                {tem.template_subject}
                </td>
-              <td>
+              <td scope="col">
               {tem.body}
               </td>
-              <td>{tem.title}</td>
-              <td>
+              <td scope="col">{tem.title}</td>
+              <td scope="col">
+                <div className="row mr-3">
                   <Link className="nav-link" to={{pathname: `/templates/update/${tem.id}`, state: {templateId: tem.id}}}> 
                       <i className="fa fa-pencil"   title='Edit'> </i>
                   </Link>
 
-                  <i className="fa fa-trash" title='Delete' onClick={() => this.setState({openDeleteModal: true, activeTemplateId: tem.id})}> </i>
+                  <i className="fa fa-trash mt-2" title='Delete' onClick={() => this.setState({openDeleteModal: true, activeTemplateId: tem.id})}> </i>
+                  </div>
                </td>
             </tr>)
     }) 

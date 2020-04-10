@@ -22,8 +22,7 @@ class TemplateForm extends Component {
 	onChange =(e) => {
 		let data = this.state.data
 		if(e.target.name === "template_type"){
-	        delete data.template_subject
-
+	        data.template_subject = ''
 		} 
 		data[e.target.name] = e.target.value
 		this.setState({data: data})
@@ -57,7 +56,7 @@ class TemplateForm extends Component {
 				(res) => {
 					that.setState({data: res})
 				})
-		} 
+		}
 	}
 
 	render(){
@@ -74,9 +73,9 @@ class TemplateForm extends Component {
 	                          <div className="add-campaign-upper-section">
 	                              <div className="form-group row">
 	                                  <label htmlFor="template_type" className="col-sm-3">Template Type</label>
-	                                  <select className="form-control col-sm-3" onChange={this.onChange}  defaultValue='normal' name="template_type">
-	                                     <option  value='normal'> Normal Tempalte </option>
-	                                     <option value='linkedin'> Linkedin Tempalte </option> 
+	                                  <select className="form-control col-sm-3" onChange={this.onChange}  value={data.template_type} name="template_type">
+	                                     <option  value="normal"> Normal Tempalte </option>
+	                                     <option value="linkedin"> Linkedin Tempalte </option> 
 	                                  </select>
 	                              </div>
 	                                <div className="form-group row">
