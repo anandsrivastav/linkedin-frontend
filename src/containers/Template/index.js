@@ -108,7 +108,7 @@ class Index extends Component {
                     <div className="row">
                          <div className="mt-2 mb-2">
                            <Link className="nav-link" to="/templates/new"> 
-                             <button className="btn btn-info"> Create New Template</button>
+                             <button className="btn btn-dark"> Create New Template</button>
                              </Link> 
                         </div>
 

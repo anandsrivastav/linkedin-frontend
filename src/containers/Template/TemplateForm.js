@@ -14,6 +14,12 @@ class TemplateForm extends Component {
 				template_subject: '',
 				body: '',
 				template_type: 'normal'
+			},
+			errors: {
+			    template_name: '* Field is required',
+				template_subject: '* Field is required',
+				body: '* Field is required',
+				template_type: '* Field is required'	
 			}
 		}
 	}
@@ -60,7 +66,7 @@ class TemplateForm extends Component {
 	}
 
 	render(){
-		let {data} = this.state
+		let {data,errors} = this.state
 		let {isLoading,fromUpdate} = this.props
 		return(
 			<div>
@@ -81,8 +87,15 @@ class TemplateForm extends Component {
 	                                <div className="form-group row">
 	                                      <label htmlFor="template_name" className="col-sm-3"> Name</label>
 		                                  <input type="text" className="form-control col-sm-5" name="template_name" defaultValue={data.template_name} 
-		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
+		                                  onChange={this.onChange} placeholder="Tempalte Name" 
+		                                  required/>
+		                                                             
 		                            </div>
+		                            <div className="row"> 
+		                              <div className="col-sm-3"> </div>
+		                             <span className="error_template_form">{errors.template_name}</span>
+		                            </div>
+
 	                              {data.template_type == 'normal' ? 
 
 	                              <React.Fragment>
@@ -92,7 +105,11 @@ class TemplateForm extends Component {
 		                                  <textarea className="form-control col-sm-9" name="template_subject" defaultValue={data.template_subject} 
 		                                    onChange={this.onChange} placeholder="Tempalte Subject" rows={2} required>
 		                                  </textarea>
-		                              </div> 
+		                              </div>
+		                              <div className="row"> 
+				                              <div className="col-sm-3"> </div>
+				                             <span className="error_template_form">{errors.template_subject}</span>
+				                            </div> 
 		                            </React.Fragment>  
 		                            :
 		                            ''
@@ -104,6 +121,10 @@ class TemplateForm extends Component {
 	                                    onChange={this.onChange} rows={10} placeholder="Tempalte Body" required>
 	                                  </textarea>
 	                              </div>
+	                              <div className="row"> 
+				                              <div className="col-sm-3"> </div>
+				                             <span className="error_template_form">{errors.body}</span>
+				                        </div>
 	                          </div>
 	                      </div>
 	                  </div>
@@ -112,7 +133,7 @@ class TemplateForm extends Component {
 	                        { fromUpdate  ? 'Update' : 'Save'}
 	                        </button>
 	                         &nbsp;
-	                       <button type="cancel" name="cancel-new-campaign-button" onClick={(e) => this.props.history.push('/templates')} className="btn btn-dark mb-3">
+	                       <button type="reset" name="cancel-new-campaign-button" onClick={(e) => this.props.history.push('/templates')} className="btn btn-dark mb-3">
 	                       Cancel
 	                       </button>
 	                  </div>
