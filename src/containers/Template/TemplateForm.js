@@ -16,37 +16,67 @@ class TemplateForm extends Component {
 				template_type: 'normal'
 			},
 			errors: {
-			    template_name: '* Field is required',
-				template_subject: '* Field is required',
-				body: '* Field is required',
-				template_type: '* Field is required'	
-			}
+			    template_name: '',
+				template_subject: '',
+				body: '',
+				template_type: ''	
+			},
+			submittedOnce: false
 		}
+	}
+
+
+	checkEmpty = (dataToCheck) => {
+		let {data,errors} = this.state
+		let stopApicall = false
+
+		for (var key in dataToCheck) {
+				if(!dataToCheck[key] || dataToCheck[key].length == 0){
+					errors[key] = "Field can't be blank"
+					this.setState({errors})
+					stopApicall = true
+				}
+				else{
+					errors[key] = ""
+					this.setState({errors})
+				}
+			}
+
+	return stopApicall
 	}
 	
 
 	onChange =(e) => {
-		let data = this.state.data
+		let {data,errors} = this.state
 		if(e.target.name === "template_type"){
 	        data.template_subject = ''
 		} 
 		data[e.target.name] = e.target.value
+		this.checkEmpty(data)
 		this.setState({data: data})
 	}
 
 	handleSubmit = (e) => {
 		e.preventDefault()
+		this.setState({submittedOnce: true})
+		let stopApicall = false;
+
+		let {data,errors} = this.state
+
 		if(this.props.fromUpdate){
-			let dataToSend = this.state.data
+			let dataToSend = data
 			dataToSend.id = this.props.location.state.templateId
-			this.props.updateTemplate(dataToSend).then(
+			let stopApicall = this.checkEmpty(dataToSend)
+			!stopApicall && this.props.updateTemplate(dataToSend).then(
 			() => {
 			    NotificationManager.success('Template Updated', 'Updated');
 				this.props.history.push('/templates')
 	     	})
 		}
 		else{
-			this.props.saveTemplate(this.state.data).then(
+			let dataToSend = data
+		    let stopApicall = this.checkEmpty(dataToSend)
+			!stopApicall && this.props.saveTemplate(dataToSend).then(
 			() => {
 				NotificationManager.success('Template Created', 'Created');
 				this.props.history.push('/templates')
@@ -60,13 +90,13 @@ class TemplateForm extends Component {
 		if(this.props.fromUpdate){
 			this.props.fetchTemplate(this.props.location.state.templateId).then(
 				(res) => {
-					that.setState({data: res})
+					that.setState({data: res,submittedOnce: true})
 				})
 		}
 	}
 
 	render(){
-		let {data,errors} = this.state
+		let {data,errors,submittedOnce} = this.state
 		let {isLoading,fromUpdate} = this.props
 		return(
 			<div>
@@ -93,7 +123,9 @@ class TemplateForm extends Component {
 		                            </div>
 		                            <div className="row"> 
 		                              <div className="col-sm-3"> </div>
-		                             <span className="error_template_form">{errors.template_name}</span>
+		                             <span className="error_template_form">{submittedOnce && errors.template_name.length > 0 ? 
+		                             	   errors.template_name: ''}
+		                             	   </span>
 		                            </div>
 
 	                              {data.template_type == 'normal' ? 
@@ -108,7 +140,9 @@ class TemplateForm extends Component {
 		                              </div>
 		                              <div className="row"> 
 				                              <div className="col-sm-3"> </div>
-				                             <span className="error_template_form">{errors.template_subject}</span>
+				                             <span className="error_template_form">{submittedOnce && errors.template_subject.length > 0 ? 
+				                             	   errors.template_subject: ''}
+				                             	   </span>
 				                            </div> 
 		                            </React.Fragment>  
 		                            :
@@ -123,7 +157,9 @@ class TemplateForm extends Component {
 	                              </div>
 	                              <div className="row"> 
 				                              <div className="col-sm-3"> </div>
-				                             <span className="error_template_form">{errors.body}</span>
+				                             <span className="error_template_form">{submittedOnce && errors.body.length > 0 ? 
+				                             	   errors.body: ''}
+				                             	   </span>
 				                        </div>
 	                          </div>
 	                      </div>
