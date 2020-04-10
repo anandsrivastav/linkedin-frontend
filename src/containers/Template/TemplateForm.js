@@ -21,6 +21,10 @@ class TemplateForm extends Component {
 
 	onChange =(e) => {
 		let data = this.state.data
+		if(e.target.name === "template_type"){
+	        delete data.template_subject
+
+		} 
 		data[e.target.name] = e.target.value
 		this.setState({data: data})
 	}
@@ -58,7 +62,7 @@ class TemplateForm extends Component {
 
 	render(){
 		let {data} = this.state
-		let {isLoading} = this.props
+		let {isLoading,fromUpdate} = this.props
 		return(
 			<div>
 			  {isLoading ? 
@@ -68,22 +72,25 @@ class TemplateForm extends Component {
 	                  <div className="card mb-3 mt-3">
 	                      <div className="card-body">
 	                          <div className="add-campaign-upper-section">
-	                              <div className="form-group">
-	                                  <select className="form-control" onChange={this.onChange}  defaultValue='normal' name='template_type'>
+	                              <div className="form-group row">
+	                                  <label htmlFor="template_type" className="col-sm-3">Template Type</label>
+	                                  <select className="form-control col-sm-3" onChange={this.onChange}  defaultValue='normal' name="template_type">
 	                                     <option  value='normal'> Normal Tempalte </option>
 	                                     <option value='linkedin'> Linkedin Tempalte </option> 
 	                                  </select>
 	                              </div>
-	                                <div className="form-group">
-		                                  <input type="text" className="form-control" name="template_name" defaultValue={data.template_name} 
+	                                <div className="form-group row">
+	                                      <label htmlFor="template_name" className="col-sm-3">Template Name</label>
+		                                  <input type="text" className="form-control col-sm-5" name="template_name" defaultValue={data.template_name} 
 		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
 		                            </div>
 	                              {data.template_type == 'normal' ? 
 
 	                              <React.Fragment>
 
-		                              <div className="form-group">
-		                                  <textarea className="form-control" name="template_subject" defaultValue={data.template_subject} 
+		                              <div className="form-group row">
+		                                  <label htmlFor="template_subject" className="col-sm-3">Template Subject</label>
+		                                  <textarea className="form-control col-sm-9" name="template_subject" defaultValue={data.template_subject} 
 		                                    onChange={this.onChange} placeholder="Tempalte Subject" rows={2} required>
 		                                  </textarea>
 		                              </div> 
@@ -92,8 +99,9 @@ class TemplateForm extends Component {
 		                            ''
 	                                 }
 
-	                              <div className="form-group">
-	                                  <textarea className="form-control" name="body" defaultValue={data.body} 
+	                              <div className="form-group row">
+	                                  <label htmlFor="body" className="col-sm-3">Template Body</label>
+	                                  <textarea className="form-control col-sm-9" name="body" defaultValue={data.body} 
 	                                    onChange={this.onChange} rows={10} placeholder="Tempalte Body" required>
 	                                  </textarea>
 	                              </div>
@@ -102,10 +110,10 @@ class TemplateForm extends Component {
 	                  </div>
 	                  <div className="save-cancel-button-container">
 	                      <button type="submit" name="save-new-campaign-button" onClick={this.handleSubmit} className="btn btn-dark mb-3">
-	                        Save
+	                        { fromUpdate  ? 'Update' : 'Save'}
 	                        </button>
 	                         &nbsp;
-	                       <button type="cancel" name="cancel-new-campaign-button" onClick={(e) => this.props.history.push('/')} className="btn btn-dark mb-3">
+	                       <button type="cancel" name="cancel-new-campaign-button" onClick={(e) => this.props.history.push('/templates')} className="btn btn-dark mb-3">
 	                       Cancel
 	                       </button>
 	                  </div>
