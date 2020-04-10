@@ -20,6 +20,7 @@ class CampaignPlay extends Component {
     super(props);
     this.state = {
       activePage: 1,
+      totalPages: '',
       searchVal: '',
       currentFilter: null,
       filterDates: [],
@@ -30,8 +31,11 @@ class CampaignPlay extends Component {
 
   componentDidMount() {
     // console.log('${this.props.match.params.id}',this.props.match.params.id)
-    this.props.getCampaignPlay(REACT_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1);
-    
+    this.props.getCampaignPlay(REACT_API_URL + `/campaigns/${this.props.match.params.id}/start.json?page_number=`+1)
+    .then((response) => {
+      this.setState({totalPages: response.data.last_page_number})
+      // console.log(response.data.last_page_number,'did')
+    })
   }
 
   handleSelect = (e) => {
@@ -130,10 +134,7 @@ class CampaignPlay extends Component {
                           </div>
                           ) : null
                       }
-                      {
-                        isLoading ? (
-                          <Loader loading={true} />
-                        ) : (
+                      
                           <React.Fragment>
                             <table className="table table-striped table-responsive-md table-bordered table-hover" id="add-new-champaign">
                                 <thead className="thead-dark">
@@ -145,7 +146,13 @@ class CampaignPlay extends Component {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                    {
+                                  {
+                                    isLoading ? (
+                                      <tr>
+                                        <td colSpan={4}><Loader loading={true} /></td>
+                                      </tr>  
+                                    ) : 
+                                    
                                       (campaignPlay.length > 0 || typeof campaignPlay.data !== 'undefined') ? campaignPlay.data.profiles.map((campaign, index) => {
                                         return(
                                           <tr key={campaign.id}>
@@ -168,22 +175,22 @@ class CampaignPlay extends Component {
                                       }) : (
                                         <tr><td colSpan={4}>{campaignPlay.message}.</td></tr>
                                       )
-                                    }
+                                  }
                                 </tbody>
                             </table>
-                           {(campaignPlay.length > 0 || (typeof campaignPlay.data !== 'undefined' && typeof campaignPlay.data.last_page_number !== "")) &&
+                           
+                           { this.state.totalPages !== "" &&
                              <div className="pagination-content-bar mb-3">
                               <Pagination
                                 currentPage={this.state.activePage}
-                                totalPages={campaignPlay.data.last_page_number}
+                                totalPages={this.state.totalPages}
                                 changeCurrentPage={this.changeCurrentPage}
                                 theme="bottom-border"
                               /> 
                             </div>
                           }
                           </React.Fragment>
-                        )
-                      }
+                        
                   </div>
             </div>
           </div>

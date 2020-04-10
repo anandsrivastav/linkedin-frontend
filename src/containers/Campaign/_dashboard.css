@@ -15,3 +15,11 @@
 	text-align: center;
 	width: 100%
 }
+
+.bottom-border.pagination {
+    width: 40%;
+    margin: 0 auto;
+}
+.pagination ul{
+	font-weight: 800;
+}
