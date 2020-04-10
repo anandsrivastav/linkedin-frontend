@@ -31,7 +31,7 @@ class TemplateForm extends Component {
 		let stopApicall = false
 
 		for (var key in dataToCheck) {
-				if(!dataToCheck[key] || dataToCheck[key].length == 0){
+				if(dataToCheck && dataToCheck[key].length == 0){
 					errors[key] = "Field can't be blank"
 					this.setState({errors})
 					stopApicall = true
@@ -86,11 +86,15 @@ class TemplateForm extends Component {
 	}
 
 	componentDidMount = () => {
-		let that = this
 		if(this.props.fromUpdate){
 			this.props.fetchTemplate(this.props.location.state.templateId).then(
 				(res) => {
-					that.setState({data: res,submittedOnce: true})
+					let dataFetched = {}
+					dataFetched.template_name = res.template_name || ''
+					dataFetched.template_subject = res.template_subject || ''
+					dataFetched.body = res.body || ''
+					dataFetched.template_type = res.template_type || 'normal'
+					this.setState({data: dataFetched,submittedOnce: true})
 				})
 		}
 	}
@@ -165,7 +169,11 @@ class TemplateForm extends Component {
 	                      </div>
 	                  </div>
 	                  <div className="save-cancel-button-container">
-	                      <button type="submit" name="save-new-campaign-button" onClick={this.handleSubmit} className="btn btn-dark mb-3">
+	                      <button 
+	                          type="submit" 
+	                          name="save-new-campaign-button" 
+	                          onClick={this.handleSubmit} 
+	                          className="btn btn-dark mb-3">
 	                        { fromUpdate  ? 'Update' : 'Save'}
 	                        </button>
 	                         &nbsp;
