@@ -19,6 +19,9 @@ export function template(state = {}, action) {
     case 'TEMPLATE_FETCH_SUCCESS':
        return action.template
 
+    case 'TEMPLATE_DELETE_SUCCESS':
+       return 'deleted'
+
     default:
         return state;
   }

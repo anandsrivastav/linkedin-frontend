@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchTemplates, selectTemplate } from '../../actions/templateActions';
+import { fetchTemplates, selectTemplate,deleteTemplate } from '../../actions/templateActions';
 import Loader from '../../components/Loader/Loader';
 import { ButtonToolbar, Button, Modal } from 'react-bootstrap';
 import {NotificationManager} from 'react-notifications';
@@ -11,7 +11,8 @@ class Index extends Component {
   constructor(props){
     super(props)
     this.state = {
-      openDeleteModal: false
+      openDeleteModal: false,
+      activeTemplateId: ''
     }
   }
 
@@ -26,13 +27,20 @@ class Index extends Component {
    }
 
   
-
   handleClose = () => {
       this.setState({openDeleteModal: false})
   }; 
 
   handleTemplateDelete = (id) => {
-    NotificationManager.danger('Template Deleted', 'Deleted');
+    this.props.deleteTemplate(id).then(
+      () => 
+        {
+          this.setState({openDeleteModal: false,activeTemplateId: ''})
+          NotificationManager.error('Template Deleted', 'Deleted');
+          this.props.getTemplates()
+        }
+      )
+    
   }
 
 
@@ -61,22 +69,7 @@ class Index extends Component {
                       <i className="fa fa-pencil"   title='Edit'> </i>
                   </Link>
 
-                  <i className="fa fa-trash" title='Delete' onClick={() => this.setState({openDeleteModal: true})}> </i>
-
-                  <Modal show={this.state.openDeleteModal} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>Are you sure to delete this template ?</Modal.Title>
-                    </Modal.Header>
-                    {/* <Modal.Body></Modal.Body> */}
-                    <Modal.Footer>
-                      <Button variant="danger" onClick={() => this.handleTemplateDelete(tem.id)}>
-                        Delete
-                      </Button>
-                      <Button variant="primary" onClick={this.handleClose}>
-                        Cancel
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
+                  <i className="fa fa-trash" title='Delete' onClick={() => this.setState({openDeleteModal: true, activeTemplateId: tem.id})}> </i>
                </td>
             </tr>)
     }) 
@@ -127,6 +120,21 @@ class Index extends Component {
                         }
                     </div>
 
+                    <Modal show={this.state.openDeleteModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Are you sure to delete this template ?</Modal.Title>
+                    </Modal.Header>
+                    {/* <Modal.Body></Modal.Body> */}
+                    <Modal.Footer>
+                      <Button variant="danger" onClick={() => this.handleTemplateDelete(this.state.activeTemplateId)}>
+                        Delete
+                      </Button>
+                      <Button variant="primary" onClick={this.handleClose}>
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
                 </div>
               }
             </main>
@@ -137,6 +145,7 @@ class Index extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     getTemplates: () => dispatch(fetchTemplates()),
+    deleteTemplate: (id) => dispatch(deleteTemplate(id)),
     selectTemplate: (template) => dispatch(selectTemplate(template))
   };
 };

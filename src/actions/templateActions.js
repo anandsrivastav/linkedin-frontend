@@ -33,6 +33,15 @@ export function saveTemplateAction(template) {
 }
 
 
+export function deleteTemplateAction() {
+  return {
+    type: 'TEMPLATE_DELETE_SUCCESS'
+  }
+}
+
+
+
+
 export function fetchTemplates() {
   return (dispatch) => {
     dispatch(applicationIsLoading(true));
@@ -91,6 +100,37 @@ export function fetchTemplate(id) {
   }
 }
 
+export function deleteTemplate(id) {
+  return (dispatch) => {
+    dispatch(applicationIsLoading(true));
+    return axios({
+      method: "delete",
+      url: REACT_API_URL + `/templates/${id}`
+    })
+    .then((response) => {
+        if((response.status !== 200) || (response.data.status === 404)) {
+          throw Error(response.statusText);
+          return [];
+        } else {
+          return response.data.templates
+        }
+      }
+    )
+    .then(campaigns => {
+      dispatch(applicationIsLoading(false));
+      dispatch(deleteTemplateAction());
+      return campaigns
+    })
+    .catch((error) => {
+      dispatch(applicationIsLoading(false));
+      console.log(error)
+      return error
+    })
+  }
+}
+
+
+
 
 export function saveTemplate(data) {
   let dataSend = {template: data}
@@ -131,31 +171,3 @@ export function updateTemplate(data) {
 
 
 
-
-export function deleteTemplate() {
-  return (dispatch) => {
-    dispatch(applicationIsLoading(true));
-    return axios({
-      method: "delete",
-      url: REACT_API_URL + `/templates`
-    })
-    .then((response) => {
-        if((response.status !== 200) || (response.data.status === 404)) {
-          throw Error(response.statusText);
-          return [];
-        } else {
-          return response.data.templates
-        }
-      }
-    )
-    .then(campaigns => {
-      dispatch(templatesFetchDataSuccess(campaigns));
-      return campaigns
-    })
-    .catch((error) => {
-      dispatch(applicationIsLoading(false));
-      console.log(error)
-      return error
-    })
-  }
-}
