@@ -72,14 +72,14 @@ class TemplateForm extends Component {
 	                      <div className="card-body">
 	                          <div className="add-campaign-upper-section">
 	                              <div className="form-group row">
-	                                  <label htmlFor="template_type" className="col-sm-3">Template Type</label>
+	                                  <label htmlFor="template_type" className="col-sm-3"> Type</label>
 	                                  <select className="form-control col-sm-3" onChange={this.onChange}  value={data.template_type} name="template_type">
 	                                     <option  value="normal"> Normal Tempalte </option>
 	                                     <option value="linkedin"> Linkedin Tempalte </option> 
 	                                  </select>
 	                              </div>
 	                                <div className="form-group row">
-	                                      <label htmlFor="template_name" className="col-sm-3">Template Name</label>
+	                                      <label htmlFor="template_name" className="col-sm-3"> Name</label>
 		                                  <input type="text" className="form-control col-sm-5" name="template_name" defaultValue={data.template_name} 
 		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
 		                            </div>
@@ -88,7 +88,7 @@ class TemplateForm extends Component {
 	                              <React.Fragment>
 
 		                              <div className="form-group row">
-		                                  <label htmlFor="template_subject" className="col-sm-3">Template Subject</label>
+		                                  <label htmlFor="template_subject" className="col-sm-3"> Subject</label>
 		                                  <textarea className="form-control col-sm-9" name="template_subject" defaultValue={data.template_subject} 
 		                                    onChange={this.onChange} placeholder="Tempalte Subject" rows={2} required>
 		                                  </textarea>
@@ -99,7 +99,7 @@ class TemplateForm extends Component {
 	                                 }
 
 	                              <div className="form-group row">
-	                                  <label htmlFor="body" className="col-sm-3">Template Body</label>
+	                                  <label htmlFor="body" className="col-sm-3"> Body</label>
 	                                  <textarea className="form-control col-sm-9" name="body" defaultValue={data.body} 
 	                                    onChange={this.onChange} rows={10} placeholder="Tempalte Body" required>
 	                                  </textarea>

@@ -63,7 +63,6 @@ class Index extends Component {
               <td scope="col">
               {tem.body}
               </td>
-              <td scope="col">{tem.title}</td>
               <td scope="col">
                 <div className="row mr-3">
                   <Link className="nav-link" to={{pathname: `/templates/update/${tem.id}`, state: {templateId: tem.id}}}> 
@@ -77,8 +76,8 @@ class Index extends Component {
     }) 
 
     return(
-      <table className="table">
-          <thead>
+      <table className="table table-striped table-responsive-md table-bordered table-hover">
+          <thead className="thead-dark">
             <tr>
               <th scope="col"> Thumbnail</th>
               <th scope="col">Name</th>
