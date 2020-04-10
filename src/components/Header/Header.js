@@ -30,9 +30,9 @@ class Header extends Component {
                                   <li className="nav-item active">
                                       <Link className="nav-link" to="/campaign">Campaign <span className="sr-only">(current)</span></Link>
                                   </li>
-                                  {/*<li className="nav-item">
-                                                                        <Link className="nav-link" to="/templates">Templates</Link>
-                                                                    </li>*/}
+                                  {<li className="nav-item active">
+                                  <Link className="nav-link" to="/templates">Templates</Link>
+                                  </li>}
                                 </React.Fragment>
                               ) : null
                             }

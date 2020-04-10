@@ -148,6 +148,8 @@ class Dashboard extends Component {
                   <div className="col-md-12">
                       <div className="add-new-campaign-bar mb-3 mt-3">
                           <Link to="/campaign/new"><button className="btn btn-dark" type="button" Name="add-new-champaign">Add New Campaign</button></Link>
+                           &nbsp;&nbsp;
+                          <Link to="/templates/new"><button className="btn btn-dark" type="button" Name="add-new-champaign">Add New Template</button></Link>
                       </div>
                   </div>
               </div>
