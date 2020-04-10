@@ -16,6 +16,9 @@ export function template(state = {}, action) {
     case 'SAVE_TEMPLATE':
         return action.template;
 
+    case 'TEMPLATE_FETCH_SUCCESS':
+       return action.template
+
     default:
         return state;
   }

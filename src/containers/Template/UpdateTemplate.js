@@ -8,10 +8,9 @@ export default class  UpateTemplate extends Component {
 
 	render(){
 		return(
-			<div>
-			 i M Updtae
-
-			 <TemplateForm history={this.props.history} location={this.props.location}/>
+			<div className="container mt-4">
+			  Update Tempate
+			 <TemplateForm history={this.props.history} location={this.props.location} fromUpdate={true}/>
 			 </div>
 		)
 	}

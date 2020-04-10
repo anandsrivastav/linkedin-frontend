@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { saveTemplate } from '../../actions/templateActions';
+import { saveTemplate,fetchTemplate } from '../../actions/templateActions';
+import Loader from '../../components/Loader/Loader';
 
 
 class TemplateForm extends Component {
@@ -30,11 +31,25 @@ class TemplateForm extends Component {
 			() => this.props.history.push('/templates'))
 	}
 
+	componentDidMount = () => {
+		let that = this
+		if(this.props.fromUpdate){
+			this.props.fetchTemplate(this.props.location.state.templateId).then(
+				(res) => {
+					that.setState({data: res})
+				})
+		} 
+	}
+
 	render(){
 		let {data} = this.state
+		let {isLoading} = this.props
 		return(
 			<div>
-			    <form>
+			  {isLoading ? 
+			  	 <Loader loading={true} /> 
+			       :
+			        <form>
 	                  <div className="card mb-3 mt-3">
 	                      <div className="card-body">
 	                          <div className="add-campaign-upper-section">
@@ -44,13 +59,10 @@ class TemplateForm extends Component {
 	                                     <option value='linkedin'> Linkedin Tempalte </option> 
 	                                  </select>
 	                              </div>
-
 	                                <div className="form-group">
 		                                  <input type="text" className="form-control" name="template_name" defaultValue={data.template_name} 
 		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
 		                            </div>
-
-	                              
 	                              {data.template_type == 'normal' ? 
 
 	                              <React.Fragment>
@@ -63,7 +75,7 @@ class TemplateForm extends Component {
 		                            </React.Fragment>  
 		                            :
 		                            ''
-	                           }
+	                                 }
 
 	                              <div className="form-group">
 	                                  <textarea className="form-control" name="body" defaultValue={data.body} 
@@ -73,10 +85,6 @@ class TemplateForm extends Component {
 	                          </div>
 	                      </div>
 	                  </div>
-
-
-
-
 	                  <div className="save-cancel-button-container">
 	                      <button type="submit" name="save-new-campaign-button" onClick={this.handleSubmit} className="btn btn-dark mb-3">
 	                        Save
@@ -87,6 +95,7 @@ class TemplateForm extends Component {
 	                       </button>
 	                  </div>
                    </form>
+                  }
 			 </div>
 		)
 	}
@@ -104,7 +113,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveTemplate: (data) => dispatch(saveTemplate(data))  
+    saveTemplate: (data) => dispatch(saveTemplate(data)),
+    fetchTemplate: (id) => dispatch(fetchTemplate(id))
 }
 }
 
