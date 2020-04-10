@@ -9,13 +9,19 @@ class TemplateForm extends Component {
 		super(props)
 		this.state = { 
 			formData: {
-				name: '',
 				subject: '',
 				body: '',
+				template_type: 'normal'
 			}
 		}
 	}
 	
+
+	onChange =(e) => {
+		let formData = this.state.formData
+		formData[e.target.name] = e.target.value
+		this.setState({formData: formData})
+	}
 
 	handleSubmit = () => {
 
@@ -30,17 +36,35 @@ class TemplateForm extends Component {
 	                      <div className="card-body">
 	                          <div className="add-campaign-upper-section">
 	                              <div className="form-group">
-	                                  <input type="text" className="form-control" name="templateName" defaultValue={formData.name} 
-	                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
+	                                  <select class="form-control" onChange={this.onChange}  defaultValue='normal' name='template_type'>
+	                                     <option  value='normal'> Normal Tempalte </option>
+	                                     <option value='linkedin'> Linkedin Tempalte </option> 
+	                                  </select>
 	                              </div>
-	                              <div className="form-group">
-	                                  <textarea className="form-control" name="subject" defaultValue={formData.subject} 
-	                                    onChange={this.onChange} placeholder="Tempalte Subject" required>
-	                                  </textarea>
-	                              </div>
+
+	                              		                              <div className="form-group">
+		                                  <input type="text" className="form-control" name="templateName" defaultValue={formData.name} 
+		                                  onChange={this.onChange} placeholder="Tempalte Name" required/>
+		                              </div>
+
+	                              
+	                              {formData.template_type == 'normal' ? 
+
+	                              <React.Fragment>
+
+		                              <div className="form-group">
+		                                  <textarea className="form-control" name="subject" defaultValue={formData.subject} 
+		                                    onChange={this.onChange} placeholder="Tempalte Subject" rows={2} required>
+		                                  </textarea>
+		                              </div> 
+		                            </React.Fragment>  
+		                            :
+		                            ''
+	                           }
+
 	                              <div className="form-group">
 	                                  <textarea className="form-control" name="body" defaultValue={formData.body} 
-	                                    onChange={this.onChange} placeholder="Tempalte Body" required>
+	                                    onChange={this.onChange} rows={10} placeholder="Tempalte Body" required>
 	                                  </textarea>
 	                              </div>
 	                          </div>
