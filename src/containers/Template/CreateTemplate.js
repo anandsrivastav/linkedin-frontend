@@ -10,7 +10,7 @@ export default class CreateTemplate extends Component {
 		return(
 			<div className="container mt-4">
 			    Create New Template
-			    <TemplateForm />
+			    <TemplateForm history={this.props.history} location={this.props.location}/>
 			 </div>
 		)
 	}

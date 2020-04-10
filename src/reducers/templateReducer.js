@@ -13,6 +13,15 @@ export function template(state = {}, action) {
     case 'SELECT_TEMPLATE':
         return action.template;
 
+    case 'SAVE_TEMPLATE':
+        return action.template;
+
+    case 'TEMPLATE_FETCH_SUCCESS':
+       return action.template
+
+    case 'TEMPLATE_DELETE_SUCCESS':
+       return 'deleted'
+
     default:
         return state;
   }
