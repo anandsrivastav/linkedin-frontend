@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchTemplates, selectTemplate } from '../../actions/templateActions';
 import Loader from '../../components/Loader/Loader';
+import { ButtonToolbar, Button, Modal } from 'react-bootstrap';
+import {NotificationManager} from 'react-notifications';
 
 class Index extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      openDeleteModal: false
+    }
+  }
 
    componentDidMount() {
       this.props.getTemplates()
@@ -15,6 +24,17 @@ class Index extends Component {
       this.props.selectTemplate(template)
       this.props.history.push('/campaign/new')
    }
+
+  
+
+  handleClose = () => {
+      this.setState({openDeleteModal: false})
+  }; 
+
+  handleTemplateDelete = (id) => {
+    NotificationManager.danger('Template Deleted', 'Deleted');
+  }
+
 
    renderTem = () => {
     let {templates} = this.props
@@ -38,8 +58,25 @@ class Index extends Component {
               <td>{tem.title}</td>
               <td>
                   <Link className="nav-link" to={{pathname: `/templates/update/${tem.id}`, state: {templateId: tem.id}}}> 
-                      <i className="fa fa-pencil" title='Edit'> </i>
+                      <i className="fa fa-pencil"   title='Edit'> </i>
                   </Link>
+
+                  <i className="fa fa-trash" title='Delete' onClick={() => this.setState({openDeleteModal: true})}> </i>
+
+                  <Modal show={this.state.openDeleteModal} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Are you sure to delete this template ?</Modal.Title>
+                    </Modal.Header>
+                    {/* <Modal.Body></Modal.Body> */}
+                    <Modal.Footer>
+                      <Button variant="danger" onClick={() => this.handleTemplateDelete(tem.id)}>
+                        Delete
+                      </Button>
+                      <Button variant="primary" onClick={this.handleClose}>
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                </td>
             </tr>)
     }) 
@@ -62,7 +99,6 @@ class Index extends Component {
 
       )
    }
-
 
    render() {
         const { templates,isLoading } = this.props;
@@ -90,6 +126,7 @@ class Index extends Component {
                             this.renderTem() 
                         }
                     </div>
+
                 </div>
               }
             </main>
