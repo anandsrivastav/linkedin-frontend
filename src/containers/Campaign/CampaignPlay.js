@@ -143,7 +143,9 @@ class CampaignPlay extends Component {
                                   <tr>
                                     <th scope="col" className="text-center">Select</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Title</th>
+                                    <th scope="col">Summary</th>
                                     <th scope="col">Location</th>                            
                                   </tr>
                                 </thead>
@@ -151,7 +153,7 @@ class CampaignPlay extends Component {
                                   {
                                     isLoading ? (
                                       <tr>
-                                        <td colSpan={4}><Loader loading={true} /></td>
+                                        <td colSpan={7}><Loader loading={true} /></td>
                                       </tr>  
                                     ) : 
                                     
@@ -167,7 +169,13 @@ class CampaignPlay extends Component {
                                                 <img src={(campaign.image_url === "NA") ? '../../default.jpg' : campaign.image_url} /> <span> {campaign.full_name} </span>
                                               </td>
                                               <td>
+                                                {campaign.emails.join(", ")}
+                                              </td>
+                                              <td>
                                                 {campaign.title}
+                                              </td>
+                                              <td>
+                                                {campaign.summary}
                                               </td>
                                               <td className="last-champaign-action">
                                                 {campaign.location}
@@ -175,7 +183,7 @@ class CampaignPlay extends Component {
                                           </tr>
                                         )
                                       }) : (
-                                        <tr><td colSpan={4}>{campaignPlay.message}.</td></tr>
+                                        <tr><td colSpan={7}>{campaignPlay.message}.</td></tr>
                                       )
                                   }
                                 </tbody>
